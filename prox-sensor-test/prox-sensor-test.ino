@@ -25,6 +25,13 @@ long getDistanceRight() {
 
 }
 
+void allStop() {
+  digitalWrite(leftFwdPin, LOW);
+  digitalWrite(rightFwdPin, LOW);
+  digitalWrite(leftBackPin, LOW);
+  digitalWrite(rightBackPin, LOW);
+  delay(10);}
+
 void goForward() {
   digitalWrite(leftFwdPin, HIGH);
   digitalWrite(rightFwdPin, HIGH);
@@ -32,21 +39,11 @@ void goForward() {
 }
 
 void turnRight() {
-  digitalWrite(leftFwdPin, LOW);
-  digitalWrite(rightFwdPin, LOW);
-
-  digitalWrite(rightBackPin, LOW);
-
   digitalWrite(rightFwdPin, HIGH);
   digitalWrite(leftBackPin, HIGH);
 
 }
 void turnLeft() {
-  digitalWrite(rightFwdPin, LOW);
-  digitalWrite(leftFwdPin, LOW);
-
-  digitalWrite(leftBackPin, LOW);
-
   digitalWrite(leftFwdPin, HIGH);
   digitalWrite(rightBackPin, HIGH);
 }
@@ -66,10 +63,7 @@ void setup() {
   digitalWrite(trigPinFwd, LOW);
   digitalWrite(trigPinRight, LOW);
 
-  digitalWrite(leftFwdPin, LOW);
-  digitalWrite(leftBackPin, LOW);
-  digitalWrite(rightFwdPin, LOW);
-  digitalWrite(rightBackPin, LOW);
+  allStop();
   delay(5000);
   digitalWrite(rightFwdPin, HIGH);
   digitalWrite(leftBackPin, HIGH);
@@ -86,28 +80,26 @@ void loop() {
   goForward();
 
   if ((getDistanceFwd() <= 20) && (getDistanceRight() <= 10)) {
-
-    while ((getDistanceFwd() <= 20) || (getDistanceRight() <= 10))  {
-      turnLeft();
+      allStop();
+      while ((getDistanceFwd() <= 20) || (getDistanceRight() <= 10))  {
+        turnLeft();
+      }
+      allStop();  
     }
 
-
-  } else if (getDistanceRight() <= 10) {
-
+  else if (getDistanceRight() <= 10) {
+    allStop();
     while (getDistanceRight() <= 10) {
       turnLeft();
     }
-  } else if (getDistanceFwd() <= 20) {
-
+    allStop();
+  }
+  
+  else if (getDistanceFwd() <= 20) {
+    allStop();
     while (getDistanceFwd() <= 20)  {
-
       turnRight();
     }
+    allStop();
   }
-
-  digitalWrite(leftBackPin, LOW);
-  digitalWrite(rightBackPin, LOW);
-
-
-
 }
